@@ -6,6 +6,7 @@ Talk for AMMCS 2023 at WLU: Open Source Workflows for Mass Spectrometry Analysis
 
 Open Source Workflows for Mass Spectrometry Analysis
 D. Patel1 , R. Dargan1 , S. Forbes1,2 and W.S. Burr3
+
 1 Department of Chemistry, Biochemistry and Physics, UQTR, Canada darshil.patel, rushali.dargan@uqtr.ca
 2 Department of Chemistry and Biochemistry, University of Windsor, Canada shari.forbes@windsor.ca
 3 Department of Mathematics, Trent University, Canada, wesleyburr@trentu.ca
