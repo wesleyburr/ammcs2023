@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Open Source Workflows for Mass Spectrometry Analysis</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Wesley S. Burr – Trent University    wsburr     wesleyburr@trentu.ca " />
+    <script src="libs/header-attrs-2.23/header-attrs.js"></script>
+    <script src="https://use.fontawesome.com/5235085b15.js"></script>
+    <link rel="stylesheet" href="example.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Open Source Workflows for Mass Spectrometry Analysis
+### Wesley S. Burr – Trent University
+<br><a href="http://github.com/wesleyburr"><i class="fa fa-github fa-fw"></i> 
+wsburr</a> <br>
+<a href="mailto:wesleyburr@trentu.ca"><i class="fa fa-paper-plane fa-fw"></i> 
+wesleyburr@trentu.ca</a><br>
+### 2023-08-07   <br><br> Slides available at bit.ly/ammcs2023
+
+---
+
+
+class: inverse
+
+
+
+## What are Statisticians Good For?
+
+In the case of chemistry ... it's often not clear! Many chemists still subscribe
+to the Rutherford quote:
+
+&lt;br/&gt;
+&amp;nbsp;
+&lt;br/&gt;
+
+&lt;quote&gt;
+If your experiment needs statistics, you ought to have done a better experiment.
+&lt;/quote&gt;
+
+---
+
+class: inverse
+
+## However ...
+
+Once you get beyond bench experiments with limited observations, and enter
+the world of *mass* spectroscopy, you start to get a **lot** of observations.
+Each "observation" can be a run consisting of millions of events.
+
+---
+
+class: inverse
+
+## Analysis?
+
+So how do chemists analyze data from experiments using mass spectrometry instruments?
+
+&lt;br /&gt;
+Typically, **closed-source software** provided by instrument manufacturers. For example:
+
+&lt;br/&gt;
+
+* Bruker provides **Flow Injection Analysis** and **SmartFormula algorithms** for their solariX line of FT-TOFMS machines
+* LECO provides **ChromaTOF** and **StatCompare** for their Pegasus BT line of GCxGC MS
+machines
+
+---
+
+class: analysis
+
+## So What Do These Software Packages Do?
+
+... that's a great question. 
+
+&lt;br/&gt;
+
+I'd like to discuss two different projects I've worked on, where we've implemented
+entirely open-source solutions to specific workflows and tasks typical to the analysis
+of data from machines such as the above. 
+
+---
+
+class: inverse
+
+## subMALDI
+
+Software originated from a 16-month collaboration with Kristen Yeh (now PhD candidate,
+Toronto), Naomi Stock (Trent WQL) and Theresa Stotesbury (Ontario Tech, here today!)
+
+&lt;br /&gt;
+First Problem (not my area): how does blood dry, and what are the chemical composition changes that occur over time as it does?
+
+&lt;br /&gt;
+Second Problem (my area): How do we work with all this data?!
+
+---
+
+class: inverse
+
+## subMALDI
+
+Vague background - IANAC: I Am Not A Chemist ... although actually, maybe I should say
+IANAEE, although I am ... sort-of.
+
+&lt;br /&gt;
+Laser agitates a surface (in this case, dried cow blood) on a plate; the resulting 
+aerosol is run through a magnetron, ionized, and then spun in a cyclotron. The ions
+arriving at plates are counted, and in the end, you have millions (possibly) of
+ions counted for each particular mass. Result is a mass spectra.
+
+---
+
+class: inverse
+
+## The Data
+
+So the result is a pair of vectors: the mass, and the counts corresponding to that mass. 
+The files are fairly "small" - only a few million pairs. 
+
+&lt;br /&gt;
+Unfortunately, the data is exported as a comma-separated character string. So a few 
+MB actually corresponds to a tremendously large data set, despite being stored in ASCII.
+
+&lt;br /&gt;
+**Solution**: train a student (Kristen), develop an R package - completely open-source - 
+do the analysis (paper), and release the software for free use and re-use on GitHub (paper).
+
+
+---
+
+class: center
+
+## `\(\;\)`
+
+&lt;center&gt;
+&lt;img src="figure/subMALDI_paper.png" style="width: 800px;"/&gt;
+&lt;/center&gt;
+
+---
+
+class: center
+
+## So What Does the Package Do?
+
+&lt;center&gt;
+&lt;img src="./figure/subMaldi1.png"&gt;
+&lt;/center&gt;
+
+---
+
+class: center
+
+## So What Does the Package Do?
+
+&lt;center&gt;
+&lt;img src="./figure/subMaldi2.png"&gt;
+&lt;/center&gt;
+
+---
+
+class: center
+
+## So What Does the Package Do?
+
+&lt;center&gt;
+&lt;img src="./figure/subMaldi3.png"&gt;
+&lt;/center&gt;
+
+---
+
+class: center
+
+## So What Does the Package Do?
+
+&lt;center&gt;
+&lt;img src="./figure/subMaldi4.png"&gt;
+&lt;/center&gt;
+
+---
+
+class: inverse
+
+## Musings
+
+* closed-source has the potential for very high polish
+* closed-source is ... closed
+* it's your data, you should have access to it (not always an issue - just in this case)
+* allows for easy implementation of cutting-edge techniques
+* what's your objective?
+
+---
+
+class: top
+
+## Second Project
+
+The second project is ongoing / less polished, but much more involved. 
+
+&lt;br /&gt;
+
+The issue: LECO sold UQTR (Shari Forbes' forensic taphonomy lab) a Pegasus BT, but 
+StatCompare hadn't been updated to support the data from it. And this state of
+affairs continued for multiple years. 
+
+&lt;br /&gt;
+
+Several PhD students had hundreds of GCxGC data sets, observed after painstaking work,
+and aside from basic visualization and peak detection, couldn't **do** much with it.
+
+---
+
+class: inverse
+
+## The Data Options
+
+There were two options for the data export: 
+
+* CDF/NetCDF of the (raw?) outputs from the machine
+* semi-processed peak 'hit lists' after comparison with standard peak databases, such
+as the NIST option
+
+--- 
+
+class: inverse
+
+## The Issue
+
+Processing a single high-resolution NetCDF file is possible. With care, effort, and 
+some specific software.
+
+&lt;br /&gt;
+Doing this processing on hundreds of NetCDF files, each of which is ~ 1GB in size? Not
+so much.
+
+&lt;br /&gt;
+Doing this with off-the-shelf software? As far as I've been able to tell: simply not 
+possible. 
+
+---
+
+class: inverse
+
+## Second Issue
+
+Writing software is had. Writing user-friendly software is harder. 
+
+&lt;br /&gt;
+
+Whatever I implemented had to be usable by students who were running out of time to 
+complete their PhD dissertations. They'd already done years of experimentation, and 
+now the data analysis part of the work was in limbo.
+
+---
+
+class: inverse
+
+## Solution
+
+I'm most familiar with the R programming language; secondarily comfortable with Fortran
+and C++. Passingly familiar with MATLAB and Python. 
+
+--
+
+&lt;br /&gt;
+Whatever I implemented had to be able to run. The files were huge, the process was 
+lengthy and involved. So the students needed access to computational power to run
+the created software on.
+
+--
+
+&lt;br/&gt;
+
+This led me to choose R. Primary reason? I have a functioning high-powered RStudio Server
+running at Trent which I could provide them access to, allowing for easy collaboration,
+and for remote debugging (both students were at UQTR)
+
+---
+
+class: inverse
+
+## gcgcWork
+
+So what is the package? At the moment, it is a pipeline for data in a specific
+format coming from LECO's ChromaTOF. This consists of 4-9 steps depending on the
+analysis desire. The primary steps are:
+
+--
+
+* a variation of the cross-sample alignment procedure implemented in StatCompare
+    - note: the documentation for this is very poor
+    
+--
+
+* organizing the set of samples; variable mutation
+
+--
+
+* normalization against a reference standard
+
+--
+
+* cleanup; removal of peaks which are not properly mapped
+
+--
+
+* custom coincidence logic across samples; preparation for PCA
+
+---
+
+class: inverse
+
+## gcgcWork
+
+So why is this necessary?
+
+* most open-source software is designed to work with one (or maybe two) samples - mass spectra
+
+--
+
+* most chemists just use the provided software, or write custom scripts in MATLAB or equivalent to do some basic things
+
+--
+
+* custom steps almost always require custom software
+
+--
+
+* closed-source alignment procedures are fraught with potential confounding - there's no control over what is actually happening in the process
+
+---
+
+class: inverse
+
+## Guinea^^^^^^ Collaborator
+
+Dr. Darshil Patel (then PhD candidate) completed the full pipeline with my 
+assistance as part of his PhD
+dissertation work, for two different data sets gathered at a morgue, and 
+at the REST[ES] facility.
+
+--
+
+We were building the train
+while it hurtled down the tracks, on fire and possibly loaded with nitroglycerin.
+
+--
+
+&lt;br/&gt;
+
+* 9 donors
+
+--
+
+* 140+ experimental (GCxGC) 'samples'
+
+--
+
+* over 30,000 uniquely identified compounds across hundreds of thousands of peaks
+
+--
+
+* approximately 160 hours of computer use (20 cores going flat-out for that whole time)
+
+
+---
+
+class: inverse
+
+## Musings
+
+* it's certainly possible to write open-source software that can do ... well, basically 
+anything!
+
+--
+
+* duplicating the effect of a closed-source piece of software is heavily dependent on
+the documentation being complete, which is almost never true
+
+--
+
+* if we want our results to be reproducible, depending on a specific version of a specific
+piece of software is only marginally acceptable, **if** that software can be audited
+
+--
+
+* many other communities are almost entirely open-source: chemistry and mass spectrometry
+are quite behind in this respect
+
+---
+
+class: inverse
+
+## Some Take-Aways
+
+* if you have computational skills, there's a big world of science out there that can 
+use your help
+
+--
+
+* if you have statistics skills, the same is true, possibly more-so
+
+--
+
+* every time we can successfully create an open-source workflow that replaces or
+complements a closed-source, we move science forward
+
+--
+
+* there's a desperate need for more collaboration across disciplines to build teams
+that can do this kind of work
+
+
+---
+
+layout: false
+class: inverse, middle
+
+&lt;center&gt;
+&lt;a href="http://www.trentu.ca/math/"&gt;&lt;img src="figure/trent.png" style="width: 200px;"/&gt;&lt;/a&gt; &amp;emsp;&amp;emsp;
+&lt;a href="https://creativecommons.org/licenses/by/4.0/"&gt;&lt;img src="figure/cc.png" style="width: 200px;"/&gt;&lt;/a&gt;
+&lt;/center&gt;
+
+## With thanks to all of my collaborators on these projects: Theresa Stotesbury, Naomi Stock, and Shari Forbes; and students Kristen Yeh, Sophie Castel, Darshil Patel and Rushali Dargan. 
+
+- Contact me: [Email](mailto:wesleyburr@trentu.ca)
+- Slides created via the R package [xaringan](https://github.com/yihui/xaringan) by Yihui Xie
+- Slides and source at &lt;http://bit.ly/ammcs2023&gt;
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "tomorrow-night-bright",
+"highlightLines": true,
+"highlightLanguage": "r"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
