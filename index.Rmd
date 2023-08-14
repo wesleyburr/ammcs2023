@@ -185,9 +185,21 @@ class: inverse
 ## Musings
 
 * closed-source has the potential for very high polish
+
+--
+
 * closed-source is ... closed
+
+--
+
 * it's your data, you should have access to it (not always an issue - just in this case)
+
+--
+
 * allows for easy implementation of cutting-edge techniques
+
+--
+
 * what's your objective?
 
 ---
@@ -217,11 +229,16 @@ class: inverse
 
 There were two options for the data export: 
 
+<br/>
+
 * CDF/NetCDF of the (raw?) outputs from the machine
+
+--
+
 * semi-processed peak 'hit lists' after comparison with standard peak databases, such
 as the NIST option
 
---- 
+---
 
 class: inverse
 
