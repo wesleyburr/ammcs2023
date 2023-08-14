@@ -119,9 +119,13 @@ class: inverse
 So the result is a pair of vectors: the mass, and the counts corresponding to that mass. 
 The files are fairly "small" - only a few million pairs. 
 
+--
+
 <br />
 Unfortunately, the data is exported as a comma-separated character string. So a few 
 MB actually corresponds to a tremendously large data set, despite being stored in ASCII.
+
+--
 
 <br />
 **Solution**: train a student (Kristen), develop an R package - completely open-source - 
