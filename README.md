@@ -7,9 +7,9 @@ Talk for AMMCS 2023 at WLU: Open Source Workflows for Mass Spectrometry Analysis
 Open Source Workflows for Mass Spectrometry Analysis
 D. Patel<sup>1</sup> , R. Dargan<sup>1</sup> , S. Forbes<sup>1,2</sup> and W.S. Burr<sup>3</sup>
 
-* 1 Department of Chemistry, Biochemistry and Physics, UQTR, Canada darshil.patel, rushali.dargan@uqtr.ca
-* 2 Department of Chemistry and Biochemistry, University of Windsor, Canada shari.forbes@windsor.ca
-* 3 Department of Mathematics, Trent University, Canada, wesleyburr@trentu.ca
+* 1 Department of Chemistry, Biochemistry and Physics, UQTR, Canada 
+* 2 Department of Chemistry and Biochemistry, University of Windsor, Canada 
+* 3 Department of Mathematics, Trent University, Canada
 
 ## Abstract
 
@@ -18,6 +18,9 @@ software provided by instrumentation manufacturers, e.g., LECO instruments are d
 advantages: they are professionally designed, with modern graphical interfaces; they are tested and known to
 process the data types produced by the instrument; and they are standard. They also have disadvantages: the algorithms are not publicly exposed; the process is limited to the implementation; and occasionally new instruments
 are released which are not supported by the current version of the software suites.
+
+<br/>
+
 In this talk we will discuss the development of two open source tools: the subMaldi package [4] for single
 dimension mass spectrometry data; and gcgcWork [2, 3] for the reproduction of a somewhat standard GCxGC
 workflow and pipeline, similar to key components provided by ChromaTOF. Both are created for the R programming environment, and available on GitHub. We will discuss the issues with implementation, especially with
