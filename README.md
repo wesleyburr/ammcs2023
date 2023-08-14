@@ -5,11 +5,11 @@ Talk for AMMCS 2023 at WLU: Open Source Workflows for Mass Spectrometry Analysis
 **Session [SS-MAAC]** Modelling and Analysis in Analytic Chemistry 
 
 Open Source Workflows for Mass Spectrometry Analysis
-D. Patel^1 , R. Dargan^1 , S. Forbes^1,2 and W.S. Burr^3
+D. Patel<sup>1</sup> , R. Dargan<sup>1</sup> , S. Forbes<sup>1,2</sup> and W.S. Burr<sup>3</sup>
 
-1 Department of Chemistry, Biochemistry and Physics, UQTR, Canada darshil.patel, rushali.dargan@uqtr.ca
-2 Department of Chemistry and Biochemistry, University of Windsor, Canada shari.forbes@windsor.ca
-3 Department of Mathematics, Trent University, Canada, wesleyburr@trentu.ca
+* 1 Department of Chemistry, Biochemistry and Physics, UQTR, Canada darshil.patel, rushali.dargan@uqtr.ca
+* 2 Department of Chemistry and Biochemistry, University of Windsor, Canada shari.forbes@windsor.ca
+* 3 Department of Mathematics, Trent University, Canada, wesleyburr@trentu.ca
 
 ## Abstract
 
@@ -27,12 +27,12 @@ body decomposition.
 
 
 ## References
-* LECO, (2023) An Introduction to LECO’s Comprehensive Two-Dimensional Gas Chromatography (GCxGC) with ChromaTOF
+* [1] LECO, (2023) An Introduction to LECO’s Comprehensive Two-Dimensional Gas Chromatography (GCxGC) with ChromaTOF
 Software. Available from: https://bit.ly/chromaTOF
-* R. Dargan, (2022) Comparing the Decomposition Odour Between Cadavers and Human Remains being used as Cadaver Detection
+* [2] R. Dargan, (2022) Comparing the Decomposition Odour Between Cadavers and Human Remains being used as Cadaver Detection
 Dog Training Aids (PhD thesis, UQTR, Quebec, Canada).
-* D. Patel, (2023) Identifying the transition from ante-mortem odour to post-mortem odour (PhD thesis, UQTR, Quebec, Canada).
-* Yeh, K., Castel, S., Stock, N. L., Stotesbury, T., & Burr, W. (2021). subMALDI: an open framework R package for processing
+* [3] D. Patel, (2023) Identifying the transition from ante-mortem odour to post-mortem odour (PhD thesis, UQTR, Quebec, Canada).
+* [4] Yeh, K., Castel, S., Stock, N. L., Stotesbury, T., & Burr, W. (2021). subMALDI: an open framework R package for processing
 irregularly-spaced mass spectrometry data. Journal of Open Source Software, 6(65), 2694.
 
 
